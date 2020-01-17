@@ -62,4 +62,17 @@ insert into managers
           ("Real Estate"),
           ("Accounting");
     
-   
+    insert into role (title, salary, manager_id, department_id)
+	values("Sales Representative", 100000, 2002, 1),
+		  ("HR Coordinator", 60000, 2001, 2),
+          ("Back-End Developer", 250000, 2003, 3),
+          ("Broker", 35000, 2004, 4),
+          ("Accounting Specialist", 70000, 2005, 5);
+    
+insert into employee (first_name, last_name, role_id, manager_id)
+	values("Wendy", "Dekuper", 100, 2002),
+		  ("Tina", "Jenkins", 101, 2001),
+          ("Bob", "Tyson", 102, 2003),
+          ("Josh", "Wilson", 103, 2004),
+          ("Lori", "McBride", 104, 2005);
+          
