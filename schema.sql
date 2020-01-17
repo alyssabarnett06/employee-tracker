@@ -1,32 +1,65 @@
-DROP DATABASE IF EXISTS employees;
-CREATE DATABASE employees;
-USE employees;
+drop database if exists employee_db;
 
+CREATE DATABASE employee_db;
+USE employee_db;
 
-CREATE TABLE department (
-    id INT AUTO_INCREMENT PRIMARY KEY, 
-    name VARCHAR(30) UNIQUE NOT NULL
+CREATE TABLE department(
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  name varchar(50),
+  PRIMARY KEY (id)
 );
 
-
-CREATE TABLE role (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) UNIQUE NOT NULL, 
-    salary DECIMAL NOT NULL,
-    department_id INT NOT NULL, 
-    INDEX dep_ind (department_id),
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
+create table managers (
+id int auto_increment not null,
+first_name varchar(30) not null,
+last_name varchar(30) not null,
+primary key(id)
 );
+alter table managers auto_increment = 2001;
 
-
-CREATE TABLE employe (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(30) NOT NULL, 
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT NOT NULL, 
-    INDEX role_ind (role_id),
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE,
-    manager_id INT,
-    INDEX man_ind (manager_id),
-    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employe(id) ON DELETE CASCADE
+CREATE TABLE role(
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  title varchar(50),
+  salary int,
+  manager_id int,
+  department_id int,
+  PRIMARY KEY (id),
+  FOREIGN KEY (manager_id)
+		REFERENCES managers(id),
+  FOREIGN KEY (department_id) 
+        REFERENCES department(id)
 );
+alter table role auto_increment = 100;
+
+CREATE TABLE employee(
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  first_name varchar(30),
+  last_name varcHAR(30),
+  role_id int,
+  manager_id int,
+  PRIMARY KEY (id),
+  FOREIGN KEY (role_id) 
+        REFERENCES role(id),
+  Foreign key (manager_id)
+		References managers(id)
+);
+alter table employee auto_increment = 1001;
+
+
+insert into managers
+	(first_name, last_name)
+    values
+    ("Paul", "Sardella"),
+    ("Kevin", "Bier"),
+    ("Eric", "Johnson"),
+    ("Amber", "Lee"),
+    ("Linda", "Patterson");
+    
+    insert into department (name)
+	values("Sales"),
+		  ("Human Resources"),
+          ("IT"),
+          ("Real Estate"),
+          ("Accounting");
+    
+   
