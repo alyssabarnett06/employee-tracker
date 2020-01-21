@@ -299,5 +299,80 @@ function addRole3(department, managerID) {
         });
 }
 
+function updateEmp() {
 
+    connection.query("SELECT * FROM employee", function (err, res) {
+        if (err) throw err;
+
+        inquirer
+            .prompt([
+                {
+                    name: "emp",
+                    type: "list",
+                    message: "Which Employee is being modified?",
+                    choices: function () {
+                        var choiceArray = [];
+                        for (var i = 0; i < res.length; i++) {
+                            choiceArray.push(res[i].first_name + " " + res[i].last_name);
+                        }
+                        return choiceArray;
+                    }
+                }
+            ])
+            .then(function (answer) {
+                let emp = answer.emp
+                let empId;
+                for (var i = 0; i < res.length; i++) {
+                    if (emp == (res[i].first_name + " " + res[i].last_name)) {
+                        empId = res[i].id;
+                    }
+                }
+
+                updateEmp2(empId);
+            })
+    })
+}
+
+function updateEmp2(empId) {
+    connection.query("SELECT * FROM role", function (err, res) {
+        if (err) throw err;
+
+        inquirer
+            .prompt([
+                {
+                    name: "role",
+                    type: "list",
+                    message: "Please select the Employee's new role",
+                    choices: function () {
+                        var choiceArray = [];
+                        for (var i = 0; i < res.length; i++) {
+                            choiceArray.push(res[i].title);
+                        }
+                        return choiceArray;
+                    }
+                }
+            ])
+            .then(function (answer) {
+                let role = answer.role
+                let roleId;
+                for (var i = 0; i < res.length; i++) {
+                    if (role == res[i].title) {
+                        roleId = res[i].id;
+                    }
+                }
+
+                updateEmp3(empId, roleId);
+            })
+    })
+}
+
+function updateEmp3(empId, roleId) {
+    connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [roleId, empId], function (err, res) {
+        if (err) throw err;
+
+        console.log("This employee's role has been updated! \n");
+
+        start();
+    })
+}
 
