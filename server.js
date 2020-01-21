@@ -15,7 +15,7 @@ connection.connect(function(err) {
     start();
 });
 
-// function which prompts the user for what action they should take
+
 function start() {
     inquirer
       .prompt({
@@ -58,4 +58,37 @@ function start() {
         }
       });
   }
+
+function viewEmps(){
+    connection.query("SELECT * FROM employee", function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+      });
+  }
+
+  function viewMan(){
+      connection.query("SELECT * FROM managers", function(err, res){
+          if(err) throw err;
+          console.table(res);
+          start();
+      })
+  }
+
+  function viewDeps(){
+    connection.query("SELECT * FROM department", function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+      });
+  }
+
+  function viewRoles(){
+    connection.query("SELECT * FROM role", function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+      });
+  }
+
 
